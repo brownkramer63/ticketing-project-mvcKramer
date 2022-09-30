@@ -7,7 +7,8 @@ import java.util.Map;
 
 public abstract class AbstractMapService <T,ID>{
 
-    public Map<ID,T> map = new HashMap<>(); //DB
+    public Map<ID,T> map = new HashMap<>(); //DB that we are using to sub for real DB
+
 
     T save(ID id,T object){
         map.put(id,object);
