@@ -38,7 +38,7 @@ public class ProjectController {
     @PostMapping("create")
     public String insertProject(@ModelAttribute("project") ProjectDTO project){
 
-        project.setProjectStatus(Status.OPEN);
+
         projectService.save(project);
 
 
