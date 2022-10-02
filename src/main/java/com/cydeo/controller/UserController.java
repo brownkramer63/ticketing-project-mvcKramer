@@ -56,4 +56,23 @@ return "/user/create";
     return "/user/update";
     }
 
+    @PostMapping("/update")
+public String updateUser(@ModelAttribute("user") UserDTO user){
+
+
+        //we need to update that user before redirecting
+userService.update(user);
+
+
+        return "redirect:/user/create";
+    }
+
+    @GetMapping("/update")
+    public String deleteUser(@ModelAttribute("user") UserDTO user){
+
+        userService.deleteById(user.getUserName());
+
+        return "redirect:/user/create";
+
+    }
 }
