@@ -67,10 +67,10 @@ userService.update(user);
         return "redirect:/user/create";
     }
 
-    @GetMapping("/update")
-    public String deleteUser(@ModelAttribute("user") UserDTO user){
+    @GetMapping("/delete/{username}")
+    public String deleteUser(@PathVariable("username") String username){
 
-        userService.deleteById(user.getUserName());
+        userService.deleteById(username);
 
         return "redirect:/user/create";
 
