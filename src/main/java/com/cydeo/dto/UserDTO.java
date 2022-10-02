@@ -6,14 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class UserDTO {
 
     private String firstName;
     private String lastName;
+    private String userName;
     private String passWord;
-    private String username;
     private boolean enabled;
     private String phone;
     private RoleDTO role;

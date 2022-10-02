@@ -4,25 +4,32 @@ import com.cydeo.dto.RoleDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.enums.Gender;
 import com.cydeo.service.RoleService;
+import com.cydeo.service.UserService;
 import com.cydeo.service.impl.RoleServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-@Component //this is causing issue with role service
+
+@Component
 public class DataGenerator implements CommandLineRunner {
 
-    private  final RoleService roleService;//using this for DI
 
-    public DataGenerator(RoleService roleService) { // we need constructor for this
+    private final RoleService roleService;
+    private final UserService userService;
+
+    public DataGenerator(RoleService roleService, UserService userService) {
         this.roleService = roleService;
+        this.userService = userService;
     }
 
     @Override
     public void run(String... args) throws Exception {
 
-        RoleDTO adminRole= new RoleDTO(1L,"Admin");
-        RoleDTO managerRole= new RoleDTO(2L,"Manager");
-        RoleDTO employeeRole= new RoleDTO(3L,"Employee");
+        RoleDTO adminRole = new RoleDTO(1L,"Admin");
+        RoleDTO managerRole = new RoleDTO(2L,"Manager");
+        RoleDTO employeeRole = new RoleDTO(3L,"Employee");
+
 
         roleService.save(adminRole);
         roleService.save(managerRole);
@@ -45,16 +52,16 @@ public class DataGenerator implements CommandLineRunner {
         UserDTO user8 = new UserDTO("Bill",
                 "Matt", "bill@cydeo.com", "Abc4", true, "8881239846", employeeRole, Gender.MALE);
 
+        userService.save(user1);
+        userService.save(user2);
+        userService.save(user3);
+        userService.save(user4);
+        userService.save(user5);
+        userService.save(user6);
+        userService.save(user7);
+        userService.save(user8);
 
 
-//        RoleServiceImpl rs = new RoleServiceImpl(); this will work but is tightly coupled
-//        rs.save(adminRole);
 
-
-
-
-        //create some rows for usercreate page and put in the DB(map)
-        //create users and put in the DB(map)
-        //this run method will execute first before anything when we start the application
     }
 }
