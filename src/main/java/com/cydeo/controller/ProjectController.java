@@ -52,4 +52,15 @@ public class ProjectController {
 
     }
 
+    @GetMapping("/complete/{projectCode}")
+    public String completeProject(@PathVariable("projectCode") String projectCode){
+
+        //complete we need to change enum status to complete
+
+        projectService.complete(projectService.findById(projectCode));
+
+
+        return "redirect:/project/create";
+    }
+
 }
