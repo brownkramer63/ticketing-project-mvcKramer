@@ -21,33 +21,31 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
-    @GetMapping("create")
-    public String createProject(Model model){
+    @GetMapping("/create")
+    public String createProject(Model model) {
 
-        model.addAttribute("project",new ProjectDTO());
-        model.addAttribute("managers",userService.findManagers());
+        model.addAttribute("project", new ProjectDTO());
+
+        model.addAttribute("managers", userService.findManagers());
 
         model.addAttribute("projects", projectService.findAll());
-
 
         return "/project/create";
     }
 
-    @PostMapping("create")
-    public String insertProject(@ModelAttribute("project") ProjectDTO project){
+    @PostMapping("/create")
+    public String insertProject(@ModelAttribute("project") ProjectDTO project) {
 
 
         projectService.save(project);
-
 
         return "redirect:/project/create";
     }
 
     @GetMapping("/delete/{projectCode}")
-    public String deleteProject(@PathVariable("projectCode") String projectCode){
+    public String deleteProject(@PathVariable("projectCode") String projectCode) {
 
         projectService.deleteById(projectCode);
-
 
         return "redirect:/project/create";
 
@@ -56,28 +54,17 @@ public class ProjectController {
     @GetMapping("/complete/{projectCode}")
     public String completeProject(@PathVariable("projectCode") String projectCode){
 
-        //complete we need to change enum status to complete
-
         projectService.complete(projectService.findById(projectCode));
-
 
         return "redirect:/project/create";
     }
 
     @GetMapping("/update/{projectCode}")
     public String editProject(@PathVariable("projectCode") String projectCode, Model model){
-//we need one user object one roles object and one users with annotation ${}
 
-        //user we are getting
         model.addAttribute("project",projectService.findById(projectCode));
-
-        // role object we are getting
-        model.addAttribute("managers", userService.findManagers() );
-
-        //we will get all users for our user list
-        model.addAttribute("projects", projectService.findAll());
-
-
+        model.addAttribute("managers",userService.findManagers());
+        model.addAttribute("projects",projectService.findAll());
 
         return "/project/update";
     }
@@ -89,5 +76,6 @@ public class ProjectController {
 
         return "redirect:/project/create";
     }
+
 
 }
