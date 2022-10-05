@@ -5,10 +5,7 @@ import com.cydeo.service.RoleService;
 import com.cydeo.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/user")
@@ -41,4 +38,41 @@ return "/user/create";
 
     }
 
+@GetMapping("/update/{username}")
+    public String editUser(@PathVariable("username") String username, Model model){
+//we need one user object one roles object and one users with annotation ${}
+
+    //user we are getting
+    model.addAttribute("user",userService.findById(username));
+
+    // role object we are getting
+    model.addAttribute("roles", roleService.findAll() );
+
+    //we will get all users for our user list
+    model.addAttribute("users", userService.findAll());
+
+
+
+    return "/user/update";
+    }
+
+    @PostMapping("/update")
+public String updateUser(@ModelAttribute("user") UserDTO user){
+
+
+        //we need to update that user before redirecting
+userService.update(user);
+
+
+        return "redirect:/user/create";
+    }
+
+    @GetMapping("/delete/{username}")
+    public String deleteUser(@PathVariable("username") String username){
+
+        userService.deleteById(username);
+
+        return "redirect:/user/create";
+
+    }
 }
