@@ -5,6 +5,7 @@ import com.cydeo.service.RoleService;
 import com.cydeo.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,7 +33,16 @@ return "/user/create";
     }
 
     @PostMapping("/create")
-    public String insertUser(@Valid  @ModelAttribute("user") UserDTO user){
+    public String insertUser(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+
+            model.addAttribute("roles", roleService.findAll());
+            model.addAttribute("users", userService.findAll());
+
+            return "/user/create";
+
+        }
 
         userService.save(user);
 
@@ -59,14 +69,21 @@ return "/user/create";
     }
 
     @PostMapping("/update")
-public String updateUser(@Valid @ModelAttribute("user") UserDTO user){
+    public String updateUser(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model) {
 
+        if (bindingResult.hasErrors()) {
 
-        //we need to update that user before redirecting
-userService.update(user);
+            model.addAttribute("roles", roleService.findAll());
+            model.addAttribute("users", userService.findAll());
 
+            return "/user/update";
+
+        }
+
+        userService.update(user);
 
         return "redirect:/user/create";
+
     }
 
     @GetMapping("/delete/{username}")
