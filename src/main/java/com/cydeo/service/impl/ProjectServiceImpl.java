@@ -70,8 +70,8 @@ super.deleteById(projectCode);
 
                             List<TaskDTO> taskList = taskService.findTasksByManager(manager);
 
-                            int completeTaskCounts=5;
-                            int unfinishedTaskCounts=3;
+                            int completeTaskCounts = (int) taskList.stream().filter(t -> t.getProject().equals(project) && t.getTaskStatus() == Status.COMPLETE).count();
+                            int unfinishedTaskCounts = (int) taskList.stream().filter(t -> t.getProject().equals(project) && t.getTaskStatus() != Status.COMPLETE).count();
 
                             project.setCompleteTaskCounts(completeTaskCounts);
                             project.setUnfinishedTaskCounts(unfinishedTaskCounts);
